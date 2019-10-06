@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import DevstagranApi from '../DevstagranApi';
+import EmpresasApi from '../EmpresasApi';
 
 export const checkLogin = () => {
     return (dispatch) => {
@@ -30,7 +30,7 @@ export const checkLogin = () => {
 export const userLogin = (email, pass) => {
    
     return (dispatch) => {
-        DevstagranApi.req({
+        EmpresasApi.req({
             endpoint: 'users/auth/sign_in?email=' + email + '&password=' + pass,
             method: 'POST',
             data: {

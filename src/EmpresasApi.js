@@ -1,6 +1,6 @@
 const devUrl = 'https://empresas.ioasys.com.br/api/v1/';
 
-const DevstagranApi = {
+const EmpresasApi = {
     req: (options) => {
 
         let urlSuffix = '';
@@ -66,4 +66,4 @@ const DevstagranApi = {
 };
 
 
-export default DevstagranApi;
+export default EmpresasApi;

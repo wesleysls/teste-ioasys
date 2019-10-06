@@ -50,7 +50,7 @@ export class Login extends Component {
         }
         return (
             <ImageBackground source={require('../assets/bg.jpg')} style={styles.container}>
-                <StatusBar backgroundColor='#0A5360' />
+                <StatusBar backgroundColor='#5049ea' />
                 <Image style={styles.header}source={require('../assets/logo_ioasys.png')}/>
                 <TextInput style={styles.imput} value={this.props.email} placeholder="Digite seu email" placeholderTextColor="#FFF" keyboardType="email-address" onChangeText={this.props.changeEmail} />
                 <TextInput style={styles.imput} value={this.props.password} secureTextEntry={true} placeholder="Digite sua senha" placeholderTextColor="#FFF" onChangeText={this.props.changePassword} />

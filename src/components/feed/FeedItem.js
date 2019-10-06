@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Text, Image, Dimensions, TouchableHighlight } from 'react-native';
+import { View, StyleSheet, Text,TouchableHighlight } from 'react-native';
 
 export default class EmpresaItem extends Component {
 
@@ -7,7 +7,16 @@ export default class EmpresaItem extends Component {
         super(props);
         this.state = {
         };
+        this.empresaClick = this.empresaClick.bind(this);
     }
+
+    empresaClick() {
+        this.props.nave.navigate('Detalhes', {
+            id: this.props.data.id
+        });
+    }
+
+
     render() {
         return (
             <View style={styles.feedContainer}>
@@ -23,9 +32,14 @@ export default class EmpresaItem extends Component {
                         <Text>{this.props.data.country}</Text>
                     </View>
                 </View>
-                <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ fontWeight: 'bold' }}>Preço da ação: </Text>
-                    <Text>U${this.props.data.share_price}</Text>
+                <View style={{ flexDirection: 'row',alignItems:'center',justifyContent: 'space-between' }}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Text style={{ fontWeight: 'bold' }}>Preço da ação: </Text>
+                        <Text>U${this.props.data.share_price}</Text>
+                    </View>
+                    <TouchableHighlight underlayColor={null} style={{ padding: 5,paddingLeft:10,paddingRight:10, backgroundColor: '#4da2d8',borderRadius:5}} onPress={this.empresaClick}>
+                        <Text style={{ fontSize: 16, fontWeight: 'bold',color:'white' }}>Detalhar</Text>
+                    </TouchableHighlight>
 
                 </View>
             </View>
