@@ -12,6 +12,7 @@ import Home from './src/screens/Home';
 console.disableYellowBox = true;
 
 const AppNavigator = createStackNavigator({
+  
   Preload: {
     screen: Preload
   },

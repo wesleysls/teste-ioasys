@@ -3,7 +3,7 @@ import DevstagranApi from '../DevstagranApi';
 
 export const checkLogin = () => {
     return (dispatch) => {
-        AsyncStorage.getItem('jwt')
+        AsyncStorage.getItem('access-token')
             .then((data) => {
                 if (data != null && data != '') {
                     dispatch({
@@ -27,63 +27,29 @@ export const checkLogin = () => {
     };
 };
 
-export const registerNewUser = (name, email, password) => {
-    return (dispatch) => {
-
-        devstagranApi.req({
-            endpoint: 'users/new',
-            method: 'POST',
-            data: {
-                name: name,
-                email: email,
-                pass: password
-            },
-            success: (json) => {
-                if (json.error == "") {
-                    AsyncStorage.setItem('jwt', json.jwt);
-                    dispatch({
-                        type: 'changeStatus',
-                        payload: {
-                            status: 1
-                        }
-                    });
-                } else {
-                    alert(json.error);
-                }
-            },
-            error: (error) => {
-                alert('Erro de requisição');
-            }
-        });
-    };
-};
-
 export const userLogin = (email, pass) => {
+   
     return (dispatch) => {
-
         DevstagranApi.req({
-            endpoint: 'users/login',
+            endpoint: 'users/auth/sign_in?email=' + email + '&password=' + pass,
             method: 'POST',
             data: {
                 email: email,
-                pass: pass
+                password: pass
             },
+            tipo:'puro',
             success: (json) => {
-                if (json.error == '') {
+                AsyncStorage.setItem('access-token', json.headers.get('access-token'));
+                AsyncStorage.setItem('client', json.headers.get('client'));
+                AsyncStorage.setItem('uid', json.headers.get('uid'));
 
-
-                    AsyncStorage.setItem('jwt', json.jwt);
-
-
+                if (json.headers.get('access-token')!= null && json.headers.get('access-token')!= '') {
                     dispatch({
                         type: 'changeStatus',
                         payload: {
                             status: 1
                         }
                     });
-
-                } else {
-                    alert(json.error);
                 }
             },
             error: (error) => {
@@ -94,7 +60,9 @@ export const userLogin = (email, pass) => {
 };
 
 export const logout = () => {
-    AsyncStorage.setItem('jwt','');
+    AsyncStorage.setItem('access-token', '');
+    AsyncStorage.setItem('client','');
+    AsyncStorage.setItem('uid','');
     return {
         type: 'changeStatus',
         payload: {
@@ -117,15 +85,6 @@ export const changePassword = (password) => {
         type: 'changePassword',
         payload: {
             password
-        }
-    }
-}
-
-export const changeName = (name) => {
-    return {
-        type: 'changeName',
-        payload: {
-            name
         }
     }
 }

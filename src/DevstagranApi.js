@@ -1,4 +1,4 @@
-const devUrl = 'https://alunos.b7web.com.br/apis/devstagram/';
+const devUrl = 'https://empresas.ioasys.com.br/api/v1/';
 
 const DevstagranApi = {
     req: (options) => {
@@ -6,6 +6,7 @@ const DevstagranApi = {
         let urlSuffix = '';
         let urlMethod = 'GET';
         let urlData = {};
+        let urlHeaders = {};
         let urlSuccess = () => { };
         let urlError = () => { };
 
@@ -18,6 +19,9 @@ const DevstagranApi = {
         if (options.data) {
             urlData = options.data;
         }
+        if (options.headers) {
+            urlHeaders = options.headers;
+        }
         if (options.success) {
             urlSuccess = options.success;
         }
@@ -29,25 +33,35 @@ const DevstagranApi = {
         let endpoint = devUrl + urlSuffix;
         let jsonData = JSON.stringify(urlData);
 
-        if(urlMethod == 'GET'){
-           jsonData = null;
-           
-           let query = '';
-           for(let i in urlData){
-             query += encodeURIComponent(i)+'='+encodeURIComponent(urlData[i])+'&'; 
-           }
-           endpoint += '?'+query;
+        if (urlMethod == 'GET') {
+            jsonData = null;
+
+            let query = '';
+            for (let i in urlData) {
+                query += encodeURIComponent(i) + '=' + encodeURIComponent(urlData[i]) + '&';
+            }
+            endpoint += '?' + query;
         }
 
+        if (options.tipo == 'puro') {
+            fetch(endpoint, {
+                method: urlMethod,
+                body: jsonData,
+                headers: urlHeaders
+            })
+                .then(urlSuccess)
+                .catch(urlError);
+        }else{
+            fetch(endpoint, {
+                method: urlMethod,
+                body: jsonData,
+                headers: urlHeaders
+            })
+                .then((r) => r.json())
+                .then(urlSuccess)
+                .catch(urlError);
+        }
 
-        fetch(endpoint, {
-            method: urlMethod,
-            body: jsonData
-        })
-            .then((r) => r.json())
-            .then(urlSuccess)
-            .catch(urlError);
-        
     }
 };
 
